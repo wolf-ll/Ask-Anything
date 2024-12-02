@@ -1,3 +1,7 @@
+import sys , os
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(base_dir)
+
 from configs.data import *
 from configs.model import *
 
@@ -50,7 +54,7 @@ model = dict(
         tubelet_size=1,
         use_checkpoint=False,
         checkpoint_num=12,
-        pretrained="/mnt/petrelfs/share_data/likunchang/model/videochat2/l16_25m.pth",
+        pretrained="/home/bailey/Code/wyf/Ask-Anything/video_chat2/pretrained/l16_25m.pth",
         return_index=-2,
     ),
     text_encoder="${TextEncoders[${text_enc}]}",

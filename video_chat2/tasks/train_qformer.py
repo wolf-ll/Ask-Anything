@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+import sys , os
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(base_dir)
+
+
 import datetime
 import logging
 import time
@@ -18,6 +24,7 @@ from utils.basic_utils import (MetricLogger, SmoothedValue, setup_seed)
 from utils.config_utils import setup_main
 from utils.distributed import get_rank, get_world_size, is_main_process
 from utils.logger import log_dict_to_wandb, setup_wandb
+
 
 logger = logging.getLogger(__name__)
 
