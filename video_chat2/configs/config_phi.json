@@ -38,7 +38,7 @@
     "add_second_msg": true,
     "img_start_token": "<Image>",
     "img_end_token": "</Image>",
-    "random_shuffle": true,
+    "random_shuffle": false,
     "return_question_instruction": false,
     "use_flash_attention": true,
     "use_lora": false,

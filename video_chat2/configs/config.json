@@ -37,7 +37,7 @@
     "end_token": "</Video>",
     "img_start_token": "<Image>",
     "img_end_token": "</Image>",
-    "random_shuffle": true,
+    "random_shuffle": false,
     "use_lora": false,
     "lora_r": 16,
     "lora_alpha": 32,

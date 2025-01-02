@@ -19,7 +19,7 @@ class ITImgTrainDataset_phi(ImageVideoBaseDataset):
         self, ann_file, transform, 
         system="", 
         start_token="<Image>", end_token="</Image>",
-        random_shuffle=True, # if True, shuffle the QA list
+        random_shuffle=False, # if True, shuffle the QA list
         return_question_instruction=False, # if True, return instruction with instruciton
     ):
         super().__init__()
@@ -123,7 +123,7 @@ class ITVidTrainDataset_phi(ITImgTrainDataset_phi):
         num_frames=4, video_reader_type="decord", sample_type="rand", num_tries=3,
         system="", start_token="<Video>", end_token="</Video>",
         add_second_msg=False,
-        random_shuffle=True,
+        random_shuffle=False,
         return_question_instruction=False, # if True, return instruction with instruciton
     ):
         super().__init__(

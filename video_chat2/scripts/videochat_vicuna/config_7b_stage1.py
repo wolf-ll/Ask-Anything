@@ -6,12 +6,12 @@ from configs.data import *
 from configs.model import *
 
 # ========================= data ==========================
-train_corpus = "webvid10m_cc14m"
+train_corpus = "webvid10m_cc3m"
 train_file = "${available_corpus[${train_corpus}]}"  # for lazy evaluation
 test_file = dict(msrvtt_1k_test=available_corpus["msrvtt_1k_test"])
 test_types = ["msrvtt_1k_test"]
 
-num_workers = 6
+num_workers = 2
 
 stop_key = None
 

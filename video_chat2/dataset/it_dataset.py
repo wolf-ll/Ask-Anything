@@ -23,7 +23,7 @@ class ITImgTrainDataset(ImageVideoBaseDataset):
         self, ann_file, transform, 
         system="", role=("Human", "Assistant"),
         start_token="<Image>", end_token="</Image>",
-        random_shuffle=True, # if True, shuffle the QA list
+        random_shuffle=False, # if True, shuffle the QA list
     ):
         super().__init__()
 
@@ -123,7 +123,7 @@ class ITVidTrainDataset(ITImgTrainDataset):
         system="", role=("Human", "Assistant"),
         start_token="<Video>", end_token="</Video>",
         add_second_msg=True,
-        random_shuffle=True,
+        random_shuffle=False,
     ):
         super().__init__(
             ann_file, transform, 

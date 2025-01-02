@@ -64,6 +64,10 @@ class Config(object):
         """
         if savepath is None:
             savepath = osp.join(cfg.WORKSPACE, "config.json")
+        if 'sys' in cfg:
+            del cfg['sys']
+        if 'os' in cfg:
+            del cfg['os']
         json.dump(cfg, open(savepath, "w"), indent=2)
 
     @classmethod

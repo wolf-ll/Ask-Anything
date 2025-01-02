@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys , os
+import types
+
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(base_dir)
 
@@ -24,7 +26,7 @@ from utils.basic_utils import (MetricLogger, SmoothedValue, setup_seed)
 from utils.config_utils import setup_main
 from utils.distributed import get_rank, get_world_size, is_main_process
 from utils.logger import log_dict_to_wandb, setup_wandb
-
+from utils.config import Config
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +166,7 @@ def setup_dataloaders(config, mode="pt"):
 
 
 def main(config):
-    if is_main_process() and config.wandb.enable:
+    if is_main_process() and config.get('wandb', {}).get('enable', False):
         run = setup_wandb(config)
 
     logger.info(f"train_file: {config.train_file}")
@@ -293,7 +295,17 @@ def main(config):
     if is_main_process() and config.wandb.enable:
         run.finish()
 
-
+        
+def clean_config_for_copy(config):
+    for key, value in config.items():
+        if isinstance(value, types.ModuleType):
+            print(f"Found module object under key: {key}")
+            config[key] = ''
+    return config
+    
+    
 if __name__ == "__main__":
     cfg = setup_main()
+    cfg = clean_config_for_copy(cfg)
+    logger.info(f"config: {Config.pretty_text(cfg)}")
     main(cfg)
