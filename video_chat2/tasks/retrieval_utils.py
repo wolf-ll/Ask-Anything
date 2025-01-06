@@ -222,6 +222,15 @@ def evaluation(model, data_loader, tokenizer, device, config):
                     device, non_blocking=True
                 )
 
+            # new add, to ensure all tensors on the same device,
+            new_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            text_feats = text_feats.to(new_device)
+            text_atts = text_atts.to(new_device)
+            encoder_output = encoder_output.to(new_device)
+            encoder_att = encoder_att.to(new_device)
+            topk_idx = topk_idx.to(new_device)
+            text_encoder = text_encoder.to(new_device)
+
             for j in range(0, len(topk_idx), bs):
                 if j + bs > len(topk_idx):
                     output = text_encoder(
@@ -326,6 +335,9 @@ def evaluation(model, data_loader, tokenizer, device, config):
                         for feat in encoder_output
                     ]
                 else:
+                    image_feats = image_feats.to(device)
+                    topk_idx = topk_idx.to(device)
+
                     encoder_output = (
                         image_feats[topk_idx[j : j + bs], clip_idx].to(
                             device, non_blocking=True

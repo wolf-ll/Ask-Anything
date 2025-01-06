@@ -5,6 +5,7 @@ from einops import rearrange
 from torch import nn
 import torch.nn.functional as F
 
+from .bert.builder import build_bert
 from .blip2.vit import build_vit
 from .blip2.builder import build_qformer
 from .criterions import VTC_VTM_Loss, get_sim
@@ -370,7 +371,7 @@ class VideoChat2_qformer(nn.Module):
         return cap_loss
 
     def get_text_encoder(self):
-        return None
+        return build_bert(self.config.model, False, False)
 
     @torch.jit.ignore
     def no_weight_decay(self):

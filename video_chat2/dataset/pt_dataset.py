@@ -35,10 +35,13 @@ class PTImgTrainDataset(ImageVideoBaseDataset):
         super().__init__()
 
         if len(ann_file) == 3 and ann_file[2] == "video":
-            self.media_type = "video"  
+            self.media_type = "video"
+            self.media_name = "key"
         else:
             self.media_type = "image"
+            self.media_name = "key"     # in anno-json file, the image name is "key"
         self.label_file, self.data_root = ann_file[:2]
+        logger.info(f"=========label file : {self.label_file}, data root : {self.data_root}")
 
         logger.info('Load json file')
         with open(self.label_file, 'r') as f:
@@ -50,7 +53,12 @@ class PTImgTrainDataset(ImageVideoBaseDataset):
         logger.info(f"Pre-process text: {pre_text}")
 
     def get_anno(self, index):
-        filename = self.anno[index][self.media_type]
+        if "cc3m" in self.label_file:
+            filename = self.anno[index][self.media_name] + ".jpg"
+        elif "webvid" in self.label_file:
+            filename = self.anno[index][self.media_name] + ".mp4"
+        else:
+            filename = self.anno[index][self.media_name]
         caption = self.anno[index]["caption"]
         anno = {"image": os.path.join(self.data_root, filename), "caption": caption}
         return anno
@@ -59,6 +67,7 @@ class PTImgTrainDataset(ImageVideoBaseDataset):
         return self.num_examples
 
     def __getitem__(self, index):
+        ann = {}
         try:
             ann = self.get_anno(index)
             image, index = self.load_and_transform_media_data(index, ann["image"])

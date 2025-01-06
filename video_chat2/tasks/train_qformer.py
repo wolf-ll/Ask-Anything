@@ -295,17 +295,8 @@ def main(config):
     if is_main_process() and config.wandb.enable:
         run.finish()
 
-        
-def clean_config_for_copy(config):
-    for key, value in config.items():
-        if isinstance(value, types.ModuleType):
-            print(f"Found module object under key: {key}")
-            config[key] = ''
-    return config
-    
     
 if __name__ == "__main__":
     cfg = setup_main()
-    cfg = clean_config_for_copy(cfg)
     logger.info(f"config: {Config.pretty_text(cfg)}")
     main(cfg)

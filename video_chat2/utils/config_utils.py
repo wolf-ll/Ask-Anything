@@ -1,6 +1,8 @@
 import logging
 import os
 import json
+import types
+
 import torch.distributed as dist
 from os.path import dirname, join
 
@@ -172,6 +174,11 @@ def setup_main():
 
     if hasattr(config, "deepspeed") and config.deepspeed.enable:
         config = setup_deepspeed_config(config)
+
+    for key, value in config.items():
+        if isinstance(value, types.ModuleType):
+            print(f"Found module object under key: {key}")
+            config[key] = ''
 
     if is_main_process():
         setup_output_dir(config.output_dir, excludes=["code"])

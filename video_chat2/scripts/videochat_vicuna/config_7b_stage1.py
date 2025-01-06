@@ -6,7 +6,7 @@ from configs.data import *
 from configs.model import *
 
 # ========================= data ==========================
-train_corpus = "webvid10m_cc3m"
+train_corpus = "webvid10m_cc3m"     # originally cc14m
 train_file = "${available_corpus[${train_corpus}]}"  # for lazy evaluation
 test_file = dict(msrvtt_1k_test=available_corpus["msrvtt_1k_test"])
 test_types = ["msrvtt_1k_test"]
@@ -18,7 +18,7 @@ stop_key = None
 # ========================= input ==========================
 num_frames = 4
 num_frames_test = 4
-batch_size = 128
+batch_size = 32     # originally 128
 max_txt_l = 32
 
 pre_text = False
@@ -64,12 +64,16 @@ model = dict(
     qformer_num_query_tokens=32,
     agg_method="mean",
     drop_path_rate=0.2,
+    # new add -- for bert/builder.py build_bert()
+    multimodal=dict(
+        enable=True
+    )
 )
 
 criterion = dict(
     loss_weight=dict(vtc=1.0, mlm=0.0, vtm=1.0, mvm=0.0, cap=1.0),  # 0: disabled.
     vtm_hard_neg=True,
-    vtm_cat_text_cls=True
+    vtm_cat_text_cls=False      # only text-feature was used
 )
 
 optimizer = dict(

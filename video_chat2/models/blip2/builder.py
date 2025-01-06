@@ -14,7 +14,8 @@ def build_qformer(num_query_token, vision_width,
                   qformer_attention_probs_dropout_prob=0.1,
                   drop_path_rate=0.,
                   ):
-    encoder_config = BertConfig.from_pretrained("bert-base-uncased", local_files_only=True)
+    encoder_config = BertConfig.from_pretrained(
+        "/home/bailey/Code/wyf/Ask-Anything/video_chat2/tasks/bert-base-uncased/", local_files_only=True)
     encoder_config.encoder_width = vision_width
     # insert cross-attention layer every other block
     encoder_config.add_cross_attention = True
@@ -26,7 +27,8 @@ def build_qformer(num_query_token, vision_width,
     logger.info(f"Drop_path:{encoder_config.drop_path_list}")
     logger.info(encoder_config)
     Qformer = BertLMHeadModel.from_pretrained(
-        "bert-base-uncased", config=encoder_config, local_files_only=True
+        "/home/bailey/Code/wyf/Ask-Anything/video_chat2/tasks/bert-base-uncased/",
+        config=encoder_config, local_files_only=True
     )                 
     query_tokens = nn.Parameter(
         torch.zeros(1, num_query_token, encoder_config.hidden_size)
